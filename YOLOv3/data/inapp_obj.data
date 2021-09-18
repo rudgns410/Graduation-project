@@ -1,0 +1,4 @@
+classes=3
+train=data/inapp_obj_train.txt
+valid=data/inapp_obj_valid.txt
+names=data/inapp_obj.names
