@@ -999,3 +999,24 @@ def mosaic_one_box(xyxy, img, mosaic_rate=30):
     box = cv2.resize(box, (max(1, w//mosaic_rate), max(1, h//mosaic_rate)))
     box = cv2.resize(box, (w, h), interpolation=cv2.INTER_AREA)
     img[y:y+h, x:x+w] = box
+
+def compare_box(a, b):
+    w1, h1, w2, h2 = abs(int(a[2] - a[0])), abs(int(a[3] - a[1])), abs(int(b[2]-b[0])), abs(int(b[3] - b[1]))
+    #value of box1 and box2's widht, height
+    if int(a[0]) > int(b[0]):
+        w3 = int(b[2]) - int(a[0])
+    else:
+        w3 = int(a[2]) - int(b[0])
+    if int(a[1]) > int(b[1]):
+        h3 = int(b[3]) -int(a[1])
+    else:
+        h3 = int(a[3]) - int(b[1])
+    value = (2*w3*h3) / (w1*h1 + w2*h2)
+    return value
+
+def check_xyxy_list(xyxy, xyxy_list):
+    for i, te in enumerate(xyxy_list):
+        for t in te:
+            if compare_box(xyxy, t) > 0.5:
+                return i
+    return -1
